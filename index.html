@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brochure Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+        .form-container, .content-container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .content-container {
+            display: none; /* 처음에는 숨김 */
+        }
+    </style>
+</head>
+<body>
+
+<!-- 고객 정보 입력 폼 -->
+<div class="form-container" id="form-container">
+    <h2>Brochure Download</h2>
+    <p>본문을 보시려면 아래 정보를 입력해 주세요.</p>
+    <form id="info-form" action="https://formspree.io/f/xeoqbeab" method="POST">
+        <input type="text" name="name" placeholder="이름" required>
+        <input type="text" name="company" placeholder="소속" required>
+        <input type="email" name="email" placeholder="이메일" required>
+        <label style="font-size: 12px; display: block; text-align: left;">
+            <input type="checkbox" name="consent" required> 개인정보 수집 및 이용에 동의합니다.
+        </label>
+        <button type="submit">SUBMIT</button>
+    </form>
+</div>
+
+<!-- 본문 내용 -->
+<div class="content-container" id="content-container">
+    <h2>Automation Insight</h2>
+    <p>
+        축하합니다! 고객 정보 입력이 완료되었습니다.  
+        이곳에 본문 내용이 표시됩니다.  
+        자동화 시스템 개선과 효율성 증대에 대한 깊이 있는 분석과 인사이트를 확인하세요.
+    </p>
+    <a href="https://drive.google.com/file/d/1tyE2PSD8aATx4RDVZo6GXmQwKEgTKrjA/view?usp=sharing" target="_blank">
+        PDF 다운로드 받기
+    </a>
+</div>
+
+<script>
+    document.getElementById('info-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // 폼 기본 제출 동작 중단
+        const form = event.target;
+
+        // Formspree로 데이터 전송
+        fetch(form.action, {
+            method: form.method,
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+                // 폼 컨테이너 숨기기
+                document.getElementById('form-container').style.display = 'none';
+                // 본문 컨테이너 표시
+                document.getElementById('content-container').style.display = 'block';
+            } else {
+                alert("제출에 실패했습니다. 다시 시도해 주세요.");
+            }
+        }).catch(error => {
+            alert("제출 중 오류가 발생했습니다.");
+            console.error('Error:', error);
+        });
+    });
+</script>
+
+</body>
+</html>
