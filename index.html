@@ -149,8 +149,7 @@
 <!-- PDF 다운로드 버튼 -->
 <div id="pdfDownload" style="display: none; text-align: center; margin-top: 20px;">
   <a href="https://drive.google.com/uc?export=download&id=1tyE2PSD8aATx4RDVZo6GXmQwKEgTKrjA" 
-     download 
-     style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 4px; font-weight: 600;">
+     download style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 4px; font-weight: 600;">
     다운로드
   </a>
 </div>
@@ -163,11 +162,33 @@
 
 <!-- JavaScript -->
 <script>
+document.getElementById("downloadForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // 폼의 기본 동작 방지
+
+  // Formspree로 AJAX 요청 보내기
+  const formData = new FormData(this);
+
+  fetch("https://formspree.io/f/xeoqbeab", {
+    method: "POST",
+    body: formData,
+    headers: {
+      Accept: "application/json"
+    }
+  }).then(response => {
+    if (response.ok) {
+      showPDF(); // PDF 보기 및 다운로드 버튼 표시
+    } else {
+      alert("폼 전송에 실패했습니다. 다시 시도해 주세요.");
+    }
+  }).catch(error => {
+    console.error("Error:", error);
+    alert("폼 전송 중 오류가 발생했습니다.");
+  });
+});
+
 function showPDF() {
-  // PDF 섹션 표시
   document.getElementById("pdfSection").style.display = "block";
-  // 폼 제출 후 페이지 이동 방지
-  return false;
+  document.getElementById("pdfDownload").style.display = "block";
 }
 </script>
 
